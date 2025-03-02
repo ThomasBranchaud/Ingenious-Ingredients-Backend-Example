@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-export const authOptions = {
+export default NextAuth({
     providers: [
         GitHubProvider({
            clientId: process.env.GITHUB_ID ?? "",
@@ -19,6 +19,4 @@ export const authOptions = {
             return `${baseUrl}/hero`;  // Default behavior
         },
     }
-}
-
-export {NextAuth as GET, NextAuth as POST};
+});

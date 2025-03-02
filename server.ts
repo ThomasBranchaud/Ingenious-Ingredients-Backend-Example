@@ -9,7 +9,7 @@ import {Collection} from 'mongodb';
 
 // Initialize the express application
 const app = express();
-app.use(cors())
+app.use(cors({origin: "https://final-project-ingenious-ingredients-deployment.vercel.app/"}));
 app.use(express.json())
 const port = 3000;
 const url = "mongodb+srv://tabranchaud:tb@cluster0.h4cuw.mongodb.net/";

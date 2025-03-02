@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "server": "node --loader ts-node/esm server.ts"
   },
   "dependencies": {

@@ -21,5 +21,4 @@ export const authOptions = {
     }
 }
 
-export const GET = (req: Request, res: Response) => NextAuth(req, res, authOptions);
-export const POST = (req: Request, res: Response) => NextAuth(req, res, authOptions);
+export {NextAuth as GET, NextAuth as POST};

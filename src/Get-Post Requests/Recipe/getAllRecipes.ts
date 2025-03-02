@@ -1,7 +1,7 @@
 import { Recipe } from "../../../Classes/Recipe";
 
 export default async function GetAllRecipes(): Promise<Recipe[]> {
-    const results = await fetch('https://final-project-ingenious-ingredients-deployment.vercel.app/getAllRecipes', {
+    const results = await fetch('https://let-them-cook-webware-group-is-projects.vercel.app/getAllRecipes', {
         method: 'GET',
         headers: { "Content-Type": "application/json" }
     });

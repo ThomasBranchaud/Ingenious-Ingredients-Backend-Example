@@ -4,6 +4,9 @@ import express from "express";
 import {Request, Response} from 'express';
 import cors from "cors";
 import {Collection} from 'mongodb';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 
@@ -11,7 +14,7 @@ import {Collection} from 'mongodb';
 const app = express();
 app.use(cors({origin: 'https://let-them-cook-webware-group-is-projects.vercel.app'}));
 app.use(express.json())
-const port = 3000;
+const port = 3000 || process.env.PORT;
 const url = "mongodb+srv://tabranchaud:tb@cluster0.h4cuw.mongodb.net/";
 
 const dbconnection = new MongoClient(url);
@@ -431,6 +434,6 @@ app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
 const appRun = run();
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
    console.log(`Server is running on http://localhost:${port}`);
 })

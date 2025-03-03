@@ -431,6 +431,6 @@ app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
 const appRun = run();
 
 // Start the server
-//app.listen(port, () => {
-//    console.log(`Server is running on http://localhost:${port}`);
-//})
+app.listen(port, () => {
+   console.log(`Server is running on http://localhost:${port}`);
+})

@@ -6,7 +6,7 @@ export async function ModifyPublic(username: string, isPublic: boolean) {
 
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/modifyPublicStatus', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/modifyPublicStatus', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

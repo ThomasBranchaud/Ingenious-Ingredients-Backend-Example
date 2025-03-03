@@ -8,7 +8,7 @@ export async function GetRecipe(name: string, creator: string){
 
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/getRecipe', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/getRecipe', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

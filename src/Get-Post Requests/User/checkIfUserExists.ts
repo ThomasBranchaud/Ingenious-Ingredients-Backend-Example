@@ -5,7 +5,7 @@ export async function CheckIfUserExists(username: string){
 
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/checkIfUserExists', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/checkIfUserExists', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

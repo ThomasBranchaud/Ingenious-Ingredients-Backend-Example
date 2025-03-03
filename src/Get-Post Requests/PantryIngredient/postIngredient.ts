@@ -7,7 +7,7 @@ export async function PostIngredient(ingredient: PantryIngredient){
 
     const body = JSON.stringify(json);
 
-    const result = await fetch('http://localhost:3000/postIngredient', {
+    const result = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/postIngredient', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

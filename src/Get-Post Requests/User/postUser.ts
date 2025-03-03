@@ -11,7 +11,7 @@ export async function PostUser(user: User) : Promise<boolean> {
 
     const body = JSON.stringify(newUser)
 
-    const results = await fetch('http://localhost:3000/postUser', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/postUser', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

@@ -7,7 +7,7 @@ export async function PostRecipe(recipe: Recipe){
 
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/postRecipe', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/postRecipe', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

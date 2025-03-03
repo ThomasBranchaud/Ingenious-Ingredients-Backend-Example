@@ -8,7 +8,7 @@ export async function GetUser(username: string) {
 
     const body = JSON.stringify(json)
 
-    const results = await fetch('http://localhost:3000/getUser', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/getUser', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

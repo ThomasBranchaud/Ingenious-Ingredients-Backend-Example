@@ -7,7 +7,7 @@ export async function GetRecipesByUser(username: string){
 
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/getRecipesByUser', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/getRecipesByUser', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

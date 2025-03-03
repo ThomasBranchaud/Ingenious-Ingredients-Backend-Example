@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 app.use(cors({origin: 'https://let-them-cook-webware-group-is-projects.vercel.app'}));
 app.use(express.json())
-const port = 3000 || process.env.PORT;
+const port : number = 3000 || process.env.PORT;
 const url = "mongodb+srv://tabranchaud:tb@cluster0.h4cuw.mongodb.net/";
 
 const dbconnection = new MongoClient(url);

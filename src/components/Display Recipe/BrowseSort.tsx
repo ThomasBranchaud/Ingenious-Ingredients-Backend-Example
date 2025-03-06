@@ -1,17 +1,17 @@
 'use client'
 
 import * as React from "react";
-import {Select, MenuItem, FormControl, InputLabel} from "@mui/material";
+import { Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
 
 interface BrowseSortProps {
     onSortChange: (sortBy: string) => void;
     disabled?: boolean;
 }
 
-export default function BrowseSort({onSortChange, disabled = false}: BrowseSortProps) {
+export default function BrowseSort({ onSortChange, disabled = false }: BrowseSortProps) {
     const [sortBy, setSortBy] = React.useState<string>("likes");
 
-    const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleSortChange = (event: SelectChangeEvent<string>) => {
         const value = event.target.value as string;
         setSortBy(value);
         onSortChange(value);

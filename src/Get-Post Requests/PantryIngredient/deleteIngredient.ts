@@ -6,7 +6,7 @@ export async function DeleteIngredient(name: string, username: string){
 
     const body = JSON.stringify(json);
 
-    const result = await fetch('http://localhost:3000/deleteIngredient', {
+    const result = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/deleteIngredient', {
         method: 'DELETE',
         body,
         headers: {"Content-Type": "application/json"}

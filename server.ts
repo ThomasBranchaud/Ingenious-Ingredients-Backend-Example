@@ -5,14 +5,17 @@ import {Request, Response} from 'express';
 import cors from "cors";
 import {Collection} from 'mongodb';
 import {PantryIngredient} from "./Classes/PantryIngredient";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 
 // Initialize the express application
 const app = express();
-app.use(cors())
+app.use(cors({origin: 'https://let-them-cook-groupi.vercel.app'}))
 app.use(express.json())
-const port = 3000;
+const port = 10000;
 const url = "mongodb+srv://tabranchaud:tb@cluster0.h4cuw.mongodb.net/";
 
 const dbconnection = new MongoClient(url);
@@ -531,6 +534,6 @@ app.post('/modifyIngredient', async (req: Request, res: Response) => {
 const appRun = run();
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log(`Server is running on http://localhost:${port}`);
 })

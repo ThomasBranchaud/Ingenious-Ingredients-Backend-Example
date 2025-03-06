@@ -3,7 +3,7 @@ export async function DeleteRecipe(slug: string): Promise<boolean> {
     const json = { slug: slug };
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/deleteRecipe', {
+    const results = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/deleteRecipe', {
         method: 'DELETE',
         body,
         headers: { "Content-Type": "application/json" }

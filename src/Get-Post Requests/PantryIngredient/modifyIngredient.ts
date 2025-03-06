@@ -9,7 +9,7 @@ export async function ModifyIngredient(username: string, name: string, ingredien
 
     const body = JSON.stringify(json);
 
-    const result = await fetch('http://localhost:3000/modifyIngredient', {
+    const result = await fetch('https://final-project-ingenious-ingredients-3bdv.onrender.com/modifyIngredient', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}

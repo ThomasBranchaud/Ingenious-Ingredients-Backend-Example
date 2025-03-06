@@ -14,7 +14,7 @@ import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
 import {LikeRecipe} from "@/Get-Post Requests/Recipe/likeRecipe";
 import {CheckForSlug} from "@/Get-Post Requests/Recipe/checkForSlug";
 import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
-import {GetRecipesByUser} from "@/Get-Post Requests/Recipe/getRecipesByUser";
+import GetRecipesByUser from "@/Get-Post Requests/Recipe/getRecipesByUser";
 import {ModifyRecipe} from "@/Get-Post Requests/Recipe/modifyRecipe";
 import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
 import {PantryIngredient} from "../../Classes/PantryIngredient";

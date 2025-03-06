@@ -134,7 +134,6 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             name: recipe.name,
             prepTime: recipe.prepTime,
             mealType: recipe.mealType,
-            ingredients: recipe.ingredients.map(ingredient => `${ingredient.name}`).join(', '),
             tags: recipe.tags,
             image: recipe.image,
             likes: recipe.likes,
@@ -142,6 +141,7 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             isPublic: recipe.isPublic
         });
         setSteps(recipe.steps.map(step => step.instruction));
+        setIngredients(recipe.ingredients.map(ingredient => ingredient.name));
 
         onResetChanges();
         onClose(false);

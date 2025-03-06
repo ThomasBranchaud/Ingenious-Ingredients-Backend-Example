@@ -46,7 +46,7 @@ function SignInDD() {
         redirect("/my-recipes");
     };
     const logOut = (event: React.MouseEvent<HTMLElement>) => {
-        signOut({callbackUrl: '/hero'});
+        signOut({callbackUrl: '/'});
     };
 
     const logIn = (event: React.MouseEvent<HTMLElement>) => {
@@ -90,15 +90,15 @@ function SignInDD() {
                     <MenuItem onClick={toAuthor}>
                         <Typography sx={{textAlign: 'center'}}>Your Page</Typography>
                     </MenuItem>
-                    <MenuItem onClick={toMyRecipes}>
-                        <Typography sx={{textAlign: 'center'}}>Your Recipes</Typography>
-                    </MenuItem>
+                    {/*<MenuItem onClick={toMyRecipes}>*/}
+                    {/*    <Typography sx={{textAlign: 'center'}}>Your Recipes</Typography>*/}
+                    {/*</MenuItem>*/}
                     <MenuItem onClick={toPantry}>
                         <Typography sx={{textAlign: 'center'}}>Your Pantry</Typography>
                     </MenuItem>
-                    <MenuItem onClick={toMealPlan}>
-                        <Typography sx={{textAlign: 'center'}}>Your Meal Plan</Typography>
-                    </MenuItem>
+                    {/*<MenuItem onClick={toMealPlan}>*/}
+                    {/*    <Typography sx={{textAlign: 'center'}}>Your Meal Plan</Typography>*/}
+                    {/*</MenuItem>*/}
                     <MenuItem onClick={logOut}>
                         <Typography sx={{textAlign: 'center'}}>Logout</Typography>
                     </MenuItem>

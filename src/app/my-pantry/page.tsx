@@ -1,14 +1,19 @@
+"use client";
+
+import React, { useEffect, useState } from 'react';
 import NavBar from "@/components/NavBar";
-import React, {JSX} from "react";
+import IngredientsTable from "@/components/IngredientsTable";
 
 export default function MyPantryPage() {
+
     return (
-        <div>
-            <NavBar stickOrNah={"sticky"}/>
-            <div className="bg-white caret-black p-8">
-                <h1>My Pantry</h1>
-                {/*<RecipeGrid colNum={3}/>*/}
-                {/*<BrowseFilterTags/>*/}
+        <div style={{backgroundImage: "url('/emoji-grid-2.svg')", minHeight: "110vh"}}>
+            <div style={{backgroundColor: "#fff0"}}>
+                <NavBar stickOrNah={'static'}/>
+
+                <div className="p-8">
+                    <IngredientsTable/>
+                </div>
             </div>
         </div>
     );

@@ -4,17 +4,15 @@ import express from "express";
 import {Request, Response} from 'express';
 import cors from "cors";
 import {Collection} from 'mongodb';
-import dotenv from "dotenv";
-
-dotenv.config();
+import {PantryIngredient} from "./Classes/PantryIngredient";
 
 
 
 // Initialize the express application
 const app = express();
-app.use(cors({origin: 'https://let-them-cook-groupi.vercel.app'}));
+app.use(cors())
 app.use(express.json())
-const port = 10000;
+const port = 3000;
 const url = "mongodb+srv://tabranchaud:tb@cluster0.h4cuw.mongodb.net/";
 
 const dbconnection = new MongoClient(url);
@@ -362,11 +360,38 @@ app.post('/likeRecipe', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/unlikeRecipe', async (req: Request, res: Response) => {
+    console.log("Unlike Recipe Received");
+    try {
+        if (recipeCollection) {
+            const recipe = await recipeCollection.findOneAndUpdate({slug: req.body.slug}, {$inc: {likes: -1}});
+        }
+        if (userCollection){
+            const user = await userCollection.findOne({username: req.body.username});
+            if (user !== null){
+                const userList = user.favoritedRecipes.filter(item => item !== req.body.slug);
+                const set = await userCollection.findOneAndUpdate({username: req.body.username}, {$set: {favoritedRecipes: userList}});
+            }
+        }
+        res.status(201).send(true);
+    }
+    catch(error){
+        console.error(error);
+        res.status(215).send(error);
+    }
+})
+
 app.post('/modifyRecipe', async (req: Request, res: Response) => {
     console.log("Modify Recipe Received");
     try {
         if (recipeCollection) {
             const num = await recipeCollection.findOne({slug: req.body.slug});
+
+            if (!num) {
+                res.status(404).send("Recipe not found");
+                return;
+            }
+
             const results = await recipeCollection.findOneAndReplace({slug: req.body.slug}, {
                 steps: req.body.recipe.steps,
                 name: req.body.recipe.name,
@@ -388,6 +413,35 @@ app.post('/modifyRecipe', async (req: Request, res: Response) => {
         res.status(211).send(false);
     }
 })
+
+app.delete('/deleteRecipe', async (req: Request, res: Response) => {
+    console.log("Delete Recipe Received");
+    try {
+        if (recipeCollection) {
+            const result = await recipeCollection.findOneAndDelete({ slug: req.body.slug });
+            if (result && result.value) {
+                if (userCollection){
+                    const users = await userCollection.find({ favoritedRecipes: req.body.slug }).toArray();
+                    for (const user of users) {
+                        const updatedFavorites = user.favoritedRecipes.filter((item: string) => item !== req.body.slug);
+                        await userCollection.updateOne(
+                            { _id: user._id },
+                            { $set: { favoritedRecipes: updatedFavorites } }
+                        );
+                    }
+                }
+                res.status(201).send("Recipe deleted and removed from users' favorite list");
+            } else {
+                res.status(404).send("Recipe not found");
+            }
+        } else {
+            res.status(500).send("Recipe collection not found");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error);
+    }
+});
 
 app.post('/postIngredient', async (req: Request, res: Response) => {
     console.log("Post Ingredient Received");
@@ -431,9 +485,52 @@ app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
     }
 })
 
+app.delete('/deleteIngredient', async (req: Request, res: Response) => {
+    console.log("Delete Ingredient Received");
+    try {
+        if (ingredientCollection) {
+            const result = await ingredientCollection.findOneAndDelete({name: req.body.name, username: req.body.username});
+            res.status(201).send(true);
+        }else{
+            res.status(201).send(false);
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.status(214).send(error);
+    }
+})
+
+app.post('/modifyIngredient', async (req: Request, res: Response) => {
+    console.log("Modify Ingredient Received");
+    try {
+        if (ingredientCollection) {
+            const insert = {
+                name: req.body.ingredient.name,
+                amount: req.body.ingredient.amount,
+                unitOfMeasure: req.body.ingredient.unitOfMeasure,
+                buyDate: req.body.ingredient.buyDate,
+                username: req.body.ingredient.username
+            }
+            const result = await ingredientCollection.findOneAndReplace({username: req.body.username, name: req.body.name}, {
+                name: insert.name,
+                amount: insert.amount,
+                unitOfMeasure: insert.unitOfMeasure,
+                buyDate: insert.buyDate,
+                username: insert.username
+            });
+            res.status(201).send(true)
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(216).send(error);
+    }
+})
+
 const appRun = run();
 
 // Start the server
-app.listen(port, "0.0.0.0", () => {
-   console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 })

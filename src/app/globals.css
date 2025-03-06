@@ -46,7 +46,7 @@ body {
 }
 
 #page-background {
-  background-color: #ffffff;
+  background-color: #ffffff; /*TODO: wtf!!*/
   display: flex;
   justify-content: flex-start;
   gap: 2rem;
@@ -88,6 +88,8 @@ body {
   justify-content: center;
   padding-left: 15%;
   background-color: #F2D6C7;
+  outline-color: red;
+  outline-width: thick;
 }
 
 
@@ -133,6 +135,8 @@ body {
   flex-direction: column;
   justify-content: center;
   padding-left: 10%;
+  outline-color: #F06449;
+  outline-width: thick;
 }
 
 #changeDescripButton {
@@ -143,4 +147,26 @@ body {
 #editDescripButton {
   padding-left: 15px;
   justify-content: right;
+}
+#addIconButtons {
+  font-size: 16px;
+  color: black;
+}
+#editIconButtons {
+  font-size: 16px;
+  color: black;
+}
+#deleteIconButtons {
+  font-size: 16px;
+  color: black;
+}
+
+#gridBox {
+  border-width: 5px;
+  border-color: #F06449;
+  background-color: #F2D6C7;
+}
+
+#gridCell {
+  background-color: #F2D6C7;
 }

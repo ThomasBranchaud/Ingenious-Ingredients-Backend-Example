@@ -6,10 +6,11 @@ import GetTags from "../../Get-Post Requests/Tags/getTags";
 
 interface FilterTagsProps {
     onTagsChange: (tags: string[]) => void;
+    defaultTags?: string[];
 }
 
-export default function FilterTags({onTagsChange}: FilterTagsProps) {
-    const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
+export default function FilterTags({onTagsChange, defaultTags = []}: FilterTagsProps) {
+    const [selectedTags, setSelectedTags] = React.useState<string[]>(defaultTags);
     const [availableTags, setAvailableTags] = React.useState<string[]>([]);
 
     React.useEffect(() => {
@@ -24,11 +25,10 @@ export default function FilterTags({onTagsChange}: FilterTagsProps) {
         setSelectedTags(newValue);
         onTagsChange(newValue);
     }
-
-
+    
     return (
         <Autocomplete
-            renderInput={(params) => <TextField {...params} label="Filter by tags"/>}
+            renderInput={(params) => <TextField {...params}/>}
             multiple
             options={availableTags}
             value={selectedTags}

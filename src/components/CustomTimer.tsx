@@ -14,19 +14,22 @@ import {TextField, Typography,} from "@mui/material";
 //testing if works move to global once it works
 const Container = styled(Box)({
     position: "relative",
-    width: "600px",
+    width: "450px",
     height: "600px",
-    backgroundColor: "#fff",
+    backgroundColor: "#F2D6C7",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-around",
-    padding: "0.2rem"
+    padding: "0.2rem",
+    borderTop: "8px solid #F06449",
+    borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+    borderTopRightRadius: "0.3rem", borderBottomRightRadius: "0.3rem", borderBottomLeftRadius: "0.3rem"
 });
 
 const Root = styled(Box)({
     position: "relative",
-    right: "6rem"
+    right: "6rem",
 });
 
 const Bottom = styled(CircularProgress)({
@@ -57,40 +60,47 @@ const CustomTimer = (props) => {
     const [seconds, setSeconds] = useState(0);
 
     const [timeDuration, setTimeDuration] = useState(0);
-    const [countdownText, setCountdownText] = useState("00:00");
+    const [countdownText, setCountdownText] = useState("00:00:00");
     const [countdownPercent, setCountdownPercent] = useState(100);
     const [countdownColor, setCountdownColor] = useState("#004082");
     const [timerRunning, setTimerRunning] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
+    const [label, setLabel] = useState<string>();
 
 
     const calculateTotalSeconds = () => hours * 3600 + minutes * 60 + seconds;
 
     const startTimer = () => {
-        if (timerRunning) return; // Do not start if already running or no input duration
+        if (timerRunning) return;
 
-        const duration = calculateTotalSeconds(); // convert input to integer
-        setTimeDuration(duration); // set initial duration
-        setTimerRunning(true);
+        const duration = calculateTotalSeconds();
 
-        const id = setInterval(() => {
-            setTimeDuration((prev) => {
-                const newTimeDuration = prev - 1;
-                const percentage = Math.ceil((newTimeDuration / duration) * 100);
-                setCountdownPercent(percentage);
+        if (duration > 0) {
+            setTimeDuration(duration);
+            setCountdownPercent(100); // Immediately animate to full circle
+            setTimerRunning(true);
 
-                if (newTimeDuration <= 0) {
-                    clearInterval(id);
-                    setTimerRunning(false); // stop the timer
-                    onComplete();
-                }
+            const id = setInterval(() => {
+                setTimeDuration((prev) => {
+                    const newTimeDuration = prev - 1;
+                    const percentage = Math.ceil((newTimeDuration / duration) * 100);
+                    setCountdownPercent(percentage);
 
-                return newTimeDuration;
-            });
-        }, 1000);
+                    if (newTimeDuration <= 0) {
+                        clearInterval(id);
+                        setTimerRunning(false);
+                        onComplete();
+                        return 0;
+                    }
 
-        setIntervalId(id);
+                    return newTimeDuration;
+                });
+            }, 1000);
+
+            setIntervalId(id);
+        }
     };
+
 
 
     useEffect(() => {
@@ -113,12 +123,35 @@ const CustomTimer = (props) => {
             clearInterval(intervalId);
             setTimerRunning(false);
         } else {
-            startTimer();
+            setTimerRunning(true);
+
+            const id = setInterval(() => {
+                setTimeDuration((prev) => {
+                    const newTimeDuration = prev -1
+                    const percentage = Math.ceil((newTimeDuration/calculateTotalSeconds()) * 100);
+                    setCountdownPercent(percentage);
+
+                    if (newTimeDuration <= 0){
+                        clearInterval(id);
+                        setTimerRunning(false);
+                        onComplete();
+                        return 0;
+                    }
+
+                    return newTimeDuration;
+                });
+            }, 1000);
+
+            setIntervalId(id);
         }
-    }
+    };
 
     function onComplete() {
-        alert("Your Timer is done");
+        alert(`Your ${label} timer is done!`);
+    }
+
+    const handleOnEditLabel = (newLabel) => {
+        setLabel(newLabel);
     }
 
 
@@ -130,8 +163,15 @@ const CustomTimer = (props) => {
         ));
 
     return (
-        <Container>
-            <Root>
+        <Box>
+                <TextField value={label} label="Name your timer:" disabled={timerRunning} onBlur={(e) => handleOnEditLabel(e.target.value)}
+                sx={{borderTop: "8px solid #F06449",
+                    borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449",
+                    borderTopLeftRadiusRadius: "0.3rem", borderTopRightRadius: "0.3rem", bgcolor: "#F2D6C7"}}
+                >Test
+                </TextField>
+            <Container>
+                <Root>
                 <Bottom variant="determinate" size={200} thickness={4} value={100} />
                 <Top
                     variant="determinate"
@@ -140,65 +180,63 @@ const CustomTimer = (props) => {
                     value={countdownPercent}
                     style={{ color: countdownColor }}
                 />
-            </Root>
-            <Box mt={2} sx={{display: 'flex', flexDirection: "column", alignContent: 'center', alignItems: "center"}}>
-                <Text sx={{margin: "1em", alignItems: 'center'}}>{countdownText}</Text>
-                <Box>
-                    <TextField
-                        select
-                        label="Hours"
-                        value={hours}
-                        onChange={(e) => {setHours(parseInt(e.target.value))}}
-                        variant="outlined"
-                        style={{ width: "5em" }}
-                    >
-                        {generateOptions(25)}
-                    </TextField>
+                </Root>
+                <Box mt={2} sx={{display: 'flex', flexDirection: "column", alignContent: 'center', alignItems: "center"}}>
+                    <Text sx={{margin: "1em", alignContent: 'center', alignItems: 'center'}}>{countdownText}</Text>
+                    <Box sx={{marginBottom: "1em"}}>
+                        <TextField
+                            select
+                            label="Hours"
+                            value={hours}
+                            onChange={(e) => {setHours(parseInt(e.target.value))}}
+                            variant="outlined"
+                            style={{ width: "5em" }}
+                        >
+                            {generateOptions(25)}
+                        </TextField>
 
-                    <TextField
-                        select
-                        label="Minutes"
-                        value={minutes}
-                        onChange={(e) => {setMinutes(parseInt(e.target.value))}}
-                        variant="outlined"
-                        style={{ width: "5em" }}
-                    >
-                        {generateOptions(61)}
-                    </TextField>
+                        <TextField
+                            select
+                            label="Minutes"
+                            value={minutes}
+                            onChange={(e) => {setMinutes(parseInt(e.target.value))}}
+                            variant="outlined"
+                            style={{ width: "5em" }}
+                        >
+                            {generateOptions(61)}
+                        </TextField>
 
-                    <TextField
-                        select
-                        label="Seconds"
-                        value={seconds}
-                        onChange={(e) => {setSeconds(parseInt(e.target.value))}}
-                        variant="outlined"
-                        style={{ width: "5em" }}
-                    >
-                        {generateOptions(61)}
-                    </TextField>
-
-
+                        <TextField
+                            select
+                            label="Seconds"
+                            value={seconds}
+                            onChange={(e) => {setSeconds(parseInt(e.target.value))}}
+                            variant="outlined"
+                            style={{ width: "5em" }}
+                        >
+                            {generateOptions(61)}
+                        </TextField>
+                    </Box>
+                    <Box mt={2}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={startTimer}
+                            disabled={timerRunning}
+                        >
+                            Start Timer
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={togglePause}
+                            style={{ marginLeft: "1em", backgroundColor: "#F06449"}}
+                        >
+                            {!timerRunning ? "Resume" : "Pause"}
+                        </Button>
+                    </Box>
                 </Box>
-                <Box mt={2}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={startTimer}
-                        disabled={timerRunning}
-                    >
-                        Start Timer
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={togglePause}
-                        style={{ marginLeft: "1em" }}
-                    >
-                        {!timerRunning ? "Resume" : "Pause"}
-                    </Button>
-                </Box>
-            </Box>
-        </Container>
+            </Container>
+        </Box>
     );
 };
 

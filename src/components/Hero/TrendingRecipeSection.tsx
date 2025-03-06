@@ -42,7 +42,7 @@ const TrendingSection = () => {
               }}>
                   Trending Recipes
               </Typography>
-              <RecipeGrid colNum={3} recipes={recipes} maxRecipes={3}/>
+              <RecipeGrid colNum={3} recipes={recipes} maxRecipes={3} sortingType={"likes"}/>
             </Box>
             <Box onClick={handleRecipeRedirect} sx={{display:'flex', alignItems:"center", justifyContent: 'center',
                 background: "linear-gradient(to bottom, rgba(242, 214, 199, 1), rgba(242, 214, 199,0))",
